@@ -8,8 +8,9 @@
 #include <QNetworkRequest>
 #include <QUrlQuery>
 
-Uploader::Uploader(
-    QNetworkAccessManager &manager, QString botToken, int64_t chatId, QString path, QObject *parent)
+#include "config.h"
+
+Uploader::Uploader(QNetworkAccessManager &manager, int64_t chatId, QString path, QObject *parent)
     : QObject{parent}
 {
     // Replace with the path to your sound file
@@ -22,7 +23,9 @@ Uploader::Uploader(
     }
 
     // Construct the API URL
-    QUrl apiUrl("https://api.telegram.org/bot" + botToken + "/sendAudio");
+    auto url = QStringLiteral("https://api.telegram.org/bot%1/sendAudio")
+                   .arg(QString::fromStdString(cfg::botToken));
+    QUrl apiUrl(url);
 
     // Create a multi-part request
     m_multiPart = std::make_unique<QHttpMultiPart>(QHttpMultiPart::FormDataType);

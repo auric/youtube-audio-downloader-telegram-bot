@@ -14,7 +14,6 @@ class Uploader : public QObject
     Q_OBJECT
 public:
     explicit Uploader(QNetworkAccessManager &manager,
-                      QString botToken,
                       int64_t chatId,
                       QString path,
                       QObject *parent = nullptr);

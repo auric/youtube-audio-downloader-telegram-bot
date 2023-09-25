@@ -7,6 +7,7 @@
 #include <QSslError>
 #include <QtDebug>
 
+#include "config.h"
 #include "item.h"
 
 YouTubeFinder::YouTubeFinder(QNetworkAccessManager &manager, int64_t chatId, QString query)
@@ -16,20 +17,15 @@ YouTubeFinder::YouTubeFinder(QNetworkAccessManager &manager, int64_t chatId, QSt
     QString host = "https://youtube.googleapis.com";
     //QString host = "https://web.telegram.org";
     //QString port = "443";
-    auto path
-        = QStringLiteral(
-              "/youtube/v3/"
-              "search?part=snippet&key=AIzaSyBK50cAp_Q8YkUptzqRTVpZRklWP108Kzc&maxResults=%1&q=%2")
-              .arg(m_maxRes)
-              .arg(query);
+    auto path = QStringLiteral("/youtube/v3/"
+                               "search?part=snippet&key=%1&maxResults=%2&q=%3")
+                    .arg(QString::fromStdString(cfg::youtubeToken))
+                    .arg(m_maxRes)
+                    .arg(query);
     QNetworkRequest req(QUrl(host + path));
     connect(&m_manager, &QNetworkAccessManager::finished, this, &YouTubeFinder::onFinished);
     connect(&m_manager, &QNetworkAccessManager::sslErrors, this, &YouTubeFinder::onSslErrors);
-    auto reply = m_manager.get(req);
-    connect(reply, &QNetworkReply::errorOccurred, this, [](auto err) {
-        qDebug() << "Error:" << err;
-    });
-    //connect(reply, &QNetworkReply::finished, this, [this, reply] { onFinished(reply); });
+    m_manager.get(req);
 }
 
 QVector<Item> YouTubeFinder::items() const
