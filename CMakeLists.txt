@@ -31,15 +31,28 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS
 add_subdirectory(3rdparty/libtelegram)
 
 add_executable(audio-yt-bot
-  src/main.cpp
+  src/bot.h
+  src/config.h
+  src/database.h
+  src/downloader.h
+  src/downloadhandler.h 
+  src/handler.h
   src/item.h
+  src/lockedptr.h
   src/resolver.h
+  src/searchhandler.h
+  src/uploader.h
   src/youtubefinder.h
   
+  src/main.cpp
+  src/bot.cpp
+  src/database.cpp
+  src/downloader.cpp
+  src/downloadhandler.cpp
   src/resolver.cpp
+  src/searchhandler.cpp
+  src/uploader.cpp
   src/youtubefinder.cpp
-  src/downloader.h src/downloader.cpp
-  src/uploader.h src/uploader.cpp
 )
 target_link_libraries(audio-yt-bot PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
@@ -55,6 +68,8 @@ target_include_directories(audio-yt-bot PRIVATE
 if(WIN32)
     target_compile_definitions(audio-yt-bot PRIVATE
         TELEGRAM_NO_SIGNAL_HANDLER)
+    
+    target_compile_options(audio-yt-bot PRIVATE /bigobj)
 endif()
 
 include(GNUInstallDirs)

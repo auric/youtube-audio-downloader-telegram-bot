@@ -9,7 +9,7 @@ class YouTubeFinder : public QObject
 {
     Q_OBJECT
 public:
-    YouTubeFinder(QNetworkAccessManager &m_manager, int64_t chatId, QString query);
+    YouTubeFinder(QNetworkAccessManager &m_manager, int64_t chatId, QString requestedQuery);
 
     QVector<Item> items() const;
 
