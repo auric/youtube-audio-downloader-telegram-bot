@@ -17,6 +17,6 @@ int main(int argc, char *argv[])
     r.appendHandler(std::make_unique<SearchHandler>(db, m, bot));
     r.appendHandler(std::make_unique<DownloadHandler>(db, m, bot));
 
-    //return EXIT_SUCCESS;
+    // return EXIT_SUCCESS;
     return app.exec();
 }

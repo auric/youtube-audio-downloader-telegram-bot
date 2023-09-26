@@ -4,14 +4,14 @@
 
 #include <future>
 
-class Downloader : public QObject
-{
+#include "item.h"
+
+class Downloader : public QObject {
     Q_OBJECT
 public:
     explicit Downloader(int64_t chatId,
-                        const QString &name,
-                        const QString &videoId,
-                        QObject *parent = nullptr);
+        const Item &item,
+        QObject *parent = nullptr);
     ~Downloader();
 
 signals:
@@ -20,5 +20,5 @@ signals:
 private:
     std::future<void> m_future;
     const int64_t m_chatId;
-    const QString m_videoId;
+    const Item m_item;
 };
