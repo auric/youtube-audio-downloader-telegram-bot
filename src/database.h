@@ -4,8 +4,8 @@
 
 #include "item.h"
 
-class Database : public QObject
-{
+class Database : public QObject {
+
     Q_OBJECT
 public:
     explicit Database(QObject *parent = nullptr);

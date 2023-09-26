@@ -35,15 +35,16 @@ add_executable(audio-yt-bot
   src/config.h
   src/database.h
   src/downloader.h
-  src/downloadhandler.h 
+  src/downloadhandler.h
   src/handler.h
   src/item.h
   src/lockedptr.h
   src/resolver.h
   src/searchhandler.h
+  src/scopedresource.h
   src/uploader.h
   src/youtubefinder.h
-  
+
   src/main.cpp
   src/bot.cpp
   src/database.cpp
@@ -68,7 +69,7 @@ target_include_directories(audio-yt-bot PRIVATE
 if(WIN32)
     target_compile_definitions(audio-yt-bot PRIVATE
         TELEGRAM_NO_SIGNAL_HANDLER)
-    
+
     target_compile_options(audio-yt-bot PRIVATE /bigobj)
 endif()
 

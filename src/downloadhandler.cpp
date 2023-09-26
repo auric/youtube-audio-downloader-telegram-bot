@@ -10,9 +10,12 @@ DownloadHandler::DownloadHandler(Database &db, QNetworkAccessManager &manager, B
     : m_db(db)
     , m_manager(manager)
     , m_bot(bot)
-{}
+{
+}
 
-void DownloadHandler::onMessage(const telegram::types::message &m) {}
+void DownloadHandler::onMessage(const telegram::types::message &m)
+{
+}
 
 void DownloadHandler::onQuery(const telegram::types::callback_query &q)
 {
@@ -21,7 +24,7 @@ void DownloadHandler::onQuery(const telegram::types::callback_query &q)
     QMetaObject::invokeMethod(
         this,
         [this, chatId, data] {
-            enqeueDownload(chatId, QString::fromUtf8(data->c_str(), data->size()));
+            enqeueDownload(chatId, QString::fromStdString(*data));
         },
         Qt::QueuedConnection);
 
@@ -41,7 +44,7 @@ void DownloadHandler::onDownloaded(int64_t chatId, const QString &path)
 void DownloadHandler::enqeueDownload(int64_t chatId, QString videoId)
 {
     auto item = m_db.get(chatId, videoId);
-    auto d = std::make_unique<Downloader>(chatId, item.m_name, videoId);
+    auto d = std::make_unique<Downloader>(chatId, item);
     connect(d.get(), &Downloader::ready, this, &DownloadHandler::onDownloaded);
 
     m_downloaders.emplace(chatId, std::move(d));
