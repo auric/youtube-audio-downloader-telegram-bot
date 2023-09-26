@@ -10,7 +10,7 @@ Downloader::Downloader(int64_t chatId, const Item &item, QObject *parent)
         const auto paths = QStandardPaths::standardLocations(QStandardPaths::TempLocation);
         const auto tempDir = paths.first();
         QString youtubeUrl = QStringLiteral("https://www.youtube.com/watch?v=") + m_item.m_id;
-        const auto cmd = QStringLiteral("yt-dlp -x -f bestaudio[ext=m4a] --embed-thumbnail --add-metadata \"%1/%2\" %3")
+        const auto cmd = QStringLiteral("yt-dlp -x -f bestaudio[ext=m4a] --add-metadata \"%1/%2\" %3")
                              .arg(tempDir, m_item.m_name, youtubeUrl);
         std::system(cmd.toStdString().c_str());
 
